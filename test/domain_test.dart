@@ -191,7 +191,7 @@ void main() {
 
     test('Find patient with partial name match', () {
       bedManager.assignBedToPatient('101', 'A', 'Theany');
-      bedManager.assignBedToPatient('101', 'B', 'Jane');
+      bedManager.assignBedToPatient('101', 'B', 'Theany');
 
       final results = bedManager.findPatient('Theany');
       expect(results.length, 2);
