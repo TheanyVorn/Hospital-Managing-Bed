@@ -4,16 +4,13 @@ import '../domain/bed_manager.dart';
 import '../domain/room.dart';
 import '../domain/bed.dart';
 
-/// File-based storage for hospital bed data
 class FileStorage {
   static const String _fileName = 'hospital_data.json';
 
-  /// Save bed manager data to file
   static Future<void> saveBedData(BedManager bedManager) async {
     try {
       final file = File(_fileName);
 
-      // Convert rooms and beds to JSON-serializable format
       final roomsData = bedManager.rooms.map((room) {
         return {
           'roomNumber': room.roomNumber,
@@ -36,13 +33,11 @@ class FileStorage {
     }
   }
 
-  /// Load bed manager data from file
   static Future<BedManager> loadBedData() async {
     try {
       final file = File(_fileName);
 
       if (!file.existsSync()) {
-        // If file doesn't exist, return empty manager
         return BedManager();
       }
 
@@ -79,12 +74,10 @@ class FileStorage {
     }
   }
 
-  /// Check if data file exists
   static bool hasExistingData() {
     return File(_fileName).existsSync();
   }
 
-  /// Delete data file
   static Future<void> deleteData() async {
     try {
       final file = File(_fileName);

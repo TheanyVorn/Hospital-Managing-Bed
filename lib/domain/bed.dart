@@ -1,4 +1,3 @@
-/// Represents a hospital bed with its status and patient information
 class Bed {
   final String bedNumber;
   bool isOccupied;
@@ -12,7 +11,6 @@ class Bed {
     this.assignedDate,
   });
 
-  /// Assigns a patient to this bed
   void assignPatient(String patientName) {
     if (isOccupied) {
       throw Exception('Bed $bedNumber is already occupied');
@@ -22,7 +20,6 @@ class Bed {
     assignedDate = DateTime.now();
   }
 
-  /// Releases the bed by removing patient information
   void releaseBed() {
     if (!isOccupied) {
       throw Exception('Bed $bedNumber is already vacant');
