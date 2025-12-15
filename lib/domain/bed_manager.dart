@@ -1,89 +1,138 @@
+import 'package:test/domain/bed.dart';
 import 'room.dart';
 
+// manages all hospital rooms and beds
 class BedManager {
+  // list to store all the rooms
   final List<Room> rooms;
 
+  // constructor - initialize with rooms or empty list
   BedManager({List<Room>? rooms}) : rooms = rooms ?? [];
 
+  // add new room
   void addRoom(Room room) {
-    if (rooms.any((r) => r.roomNumber == room.roomNumber)) {
-      throw Exception('Room ${room.roomNumber} already exists');
+    // check if room already exists
+    for (var existingRoom in rooms) {
+      if (existingRoom.roomNumber == room.roomNumber) {
+        throw Exception('Room ${room.roomNumber} already exists');
+      }
     }
     rooms.add(room);
   }
 
+  // find a room by room number
+  // returns the room if found, or null if not found
   Room? findRoom(String roomNumber) {
-    try {
-      return rooms.firstWhere((room) => room.roomNumber == roomNumber);
-    } catch (e) {
-      return null;
+    for (var room in rooms) {
+      if (room.roomNumber == roomNumber) {
+        return room; // Found the room, return it
+      }
     }
+    return null; // room not found
   }
 
+  // assign a patient to a specific bed
   void assignBedToPatient(
     String roomNumber,
     String bedNumber,
     String patientName,
   ) {
-    final room = findRoom(roomNumber);
+    // step 1: find the room
+    Room? room = findRoom(roomNumber);
     if (room == null) {
       throw Exception('Room $roomNumber not found');
     }
 
-    final bed = room.findBed(bedNumber);
+    // step 2: find the bed in the room
+    Bed? bed = room.findBed(bedNumber);
     if (bed == null) {
       throw Exception('Bed $bedNumber not found in room $roomNumber');
     }
 
+    // step 3: assign the patient to the bed
     bed.assignPatient(patientName);
   }
 
+  // release a bed (discharge patient)
   void releaseBed(String roomNumber, String bedNumber) {
-    final room = findRoom(roomNumber);
+    // step 1: find the room
+    Room? room = findRoom(roomNumber);
     if (room == null) {
       throw Exception('Room $roomNumber not found');
     }
 
-    final bed = room.findBed(bedNumber);
+    // step 2: find the bed in the room
+    Bed? bed = room.findBed(bedNumber);
     if (bed == null) {
       throw Exception('Bed $bedNumber not found in room $roomNumber');
     }
 
+    // step 3: release the bed
     bed.releaseBed();
   }
-  
+
+  // count total available beds across all rooms
   int getTotalAvailableBeds() {
-    return rooms.fold(0, (sum, room) => sum + room.getAvailableBedsCount());
+    int total = 0;
+    for (var room in rooms) {
+      total = total + room.getAvailableBedsCount();
+    }
+    return total;
   }
 
+  // count total occupied beds across all rooms
   int getTotalOccupiedBeds() {
-    return rooms.fold(0, (sum, room) => sum + room.getOccupiedBedsCount());
+    int total = 0;
+    for (var room in rooms) {
+      total = total + room.getOccupiedBedsCount();
+    }
+    return total;
   }
 
+  // count total beds across all rooms
   int getTotalBeds() {
-    return rooms.fold(0, (sum, room) => sum + room.getTotalBedsCount());
+    int total = 0;
+    for (var room in rooms) {
+      total = total + room.getTotalBedsCount();
+    }
+    return total;
   }
 
+  // get rooms by type (e.g., "icu", "general")
   List<Room> getRoomsByType(String roomType) {
-    return rooms.where((room) => room.roomType == roomType).toList();
+    List<Room> result = [];
+    for (var room in rooms) {
+      if (room.roomType == roomType) {
+        result.add(room);
+      }
+    }
+    return result;
   }
 
+  // find patients by name - searches through all beds
   List<Map<String, String>> findPatient(String patientName) {
     List<Map<String, String>> results = [];
 
+    // loop through all rooms
     for (var room in rooms) {
+      // loop through all beds in each room
       for (var bed in room.beds) {
-        if (bed.isOccupied &&
-            bed.patientName?.toLowerCase().contains(
-                  patientName.toLowerCase(),
-                ) ==
-                true) {
-          results.add({
-            'roomNumber': room.roomNumber,
-            'bedNumber': bed.bedNumber,
-            'patientName': bed.patientName!,
-            'assignedDate': bed.assignedDate.toString(),
-          });
+        // check if bed has a patient
+        if (bed.isOccupied && bed.patientName != null) {
+          // convert patient name to lowercase for comparison
+          String pName = bed.patientName!.toLowerCase();
+          String searchName = patientName.toLowerCase();
+
+          // check if patient name contains the search text
+          if (pName.contains(searchName)) {
+            // add this patient to results
+            results.add({
+              'roomNumber': room.roomNumber,
+              'bedNumber': bed.bedNumber,
+              'patientName': bed.patientName!,
+              'assignedDate': bed.assignedDate.toString(),
+            });
+          }
         }
       }
     }
