@@ -54,7 +54,7 @@ class BedRepository {
 
   BedManager getBedManager() => _bedManager;
 
-  Future<void> saveData() async {
-    await FileStorage.saveBedData(_bedManager);
+  Future<bool> saveData() async {
+    return await FileStorage.saveBedData(_bedManager);
   }
 }

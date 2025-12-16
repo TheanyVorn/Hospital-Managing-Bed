@@ -8,7 +8,7 @@ import '../domain/room_type.dart';
 class FileStorage {
   static const String _fileName = 'hospital_data.json';
 
-  static Future<void> saveBedData(BedManager bedManager) async {
+  static Future<bool> saveBedData(BedManager bedManager) async {
     try {
       final file = File(_fileName);
 
@@ -43,8 +43,10 @@ class FileStorage {
       final jsonString = jsonEncode(roomsData);
 
       await file.writeAsString(jsonString);
+      return true;
     } catch (e) {
       print('Error saving data: $e');
+      return false;
     }
   }
 

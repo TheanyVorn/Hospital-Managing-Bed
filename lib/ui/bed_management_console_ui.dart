@@ -32,16 +32,30 @@ class BedManagementConsoleUI {
         _viewAllRoomsAndBeds();
       } else if (choice == '2') {
         _assignBedToPatient();
-        await _repository.saveData();
+        bool saved = await _repository.saveData();
+        if (saved) {
+          print('Data saved successfully.');
+        } else {
+          print('Error: Failed to save data.');
+        }
       } else if (choice == '3') {
         _releaseBed();
-        await _repository.saveData();
+        bool saved = await _repository.saveData();
+        if (saved) {
+          print('Data saved successfully.');
+        } else {
+          print('Error: Failed to save data.');
+        }
       } else if (choice == '4') {
         _searchPatient();
       } else if (choice == '5') {
-        await _repository.saveData();
+        bool saved = await _repository.saveData();
         isRunning = false;
-        print('\nData saved successfully.');
+        if (saved) {
+          print('\nData saved successfully.');
+        } else {
+          print('\nError: Failed to save data.');
+        }
         print('Thank you for using Hospital Bed Management System!');
       } else {
         print('\nInvalid choice. Please try again.\n');
