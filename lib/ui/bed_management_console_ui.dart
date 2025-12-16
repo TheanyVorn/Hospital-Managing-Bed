@@ -4,20 +4,17 @@ import '../domain/room.dart';
 import '../domain/bed.dart';
 import '../data/bed_repository.dart';
 
-// console-based ui for hospital bed management system
 class BedManagementConsoleUI {
   final BedRepository _repository;
   BedManager _bedManager = BedManager();
 
   BedManagementConsoleUI() : _repository = BedRepository();
 
-  // initialize the ui (load data from file)
   Future<void> initialize() async {
     await _repository.initialize();
     _bedManager = _repository.getBedManager();
   }
 
-  // main menu loop
   Future<void> run() async {
     await initialize();
     bool isRunning = true;
@@ -25,14 +22,12 @@ class BedManagementConsoleUI {
     while (isRunning) {
       _displayMainMenu();
 
-      // get user choice from keyboard
       String? userInput = stdin.readLineSync();
       String choice = '';
       if (userInput != null) {
         choice = userInput.trim();
       }
 
-      // handle user choice
       if (choice == '1') {
         _viewAllRoomsAndBeds();
       } else if (choice == '2') {
@@ -54,7 +49,6 @@ class BedManagementConsoleUI {
     }
   }
 
-  // display main menu
   void _displayMainMenu() {
     print('\nHOSPITAL BED MANAGEMENT SYSTEM');
     print('1. View all Rooms and beds');
@@ -65,17 +59,14 @@ class BedManagementConsoleUI {
     stdout.write('\nSelect option: ');
   }
 
-  // option 1: view all rooms and beds
   void _viewAllRoomsAndBeds() {
     print('\nALL ROOMS AND BEDS');
 
-    // check if there are any rooms
     if (_bedManager.rooms.isEmpty) {
       print('No rooms available.');
       return;
     }
 
-    // show each room
     for (var room in _bedManager.rooms) {
       print('\nRoom ${room.roomNumber} (${room.roomType})');
 
@@ -83,10 +74,8 @@ class BedManagementConsoleUI {
       int totalCount = room.getTotalBedsCount();
       print('Available: $availableCount/$totalCount');
 
-      // show each bed in the room
       for (var bed in room.beds) {
         if (bed.isOccupied) {
-          // bed is occupied
           String dateStr = 'N/A';
           if (bed.assignedDate != null) {
             dateStr = bed.assignedDate.toString().substring(0, 19);
@@ -95,7 +84,6 @@ class BedManagementConsoleUI {
             '  Bed ${bed.bedNumber}: [OCCUPIED] ${bed.patientName} (Assigned: $dateStr)',
           );
         } else {
-          // bed is available
           print('  Bed ${bed.bedNumber}: [AVAILABLE]');
         }
       }
@@ -103,11 +91,9 @@ class BedManagementConsoleUI {
     print('\n');
   }
 
-  // option 2: assign bed to patient
   void _assignBedToPatient() {
     print('\nASSIGN BED TO PATIENT');
 
-    // Get room number from user
     stdout.write('\nEnter room number: ');
     String? userInput = stdin.readLineSync();
     String roomNumber = '';
@@ -115,20 +101,17 @@ class BedManagementConsoleUI {
       roomNumber = userInput.trim();
     }
 
-    // check if room number is empty
     if (roomNumber.isEmpty) {
       print('Error: Room number cannot be empty.');
       return;
     }
 
-    // find the room
     Room? room = _bedManager.findRoom(roomNumber);
     if (room == null) {
       print('Error: Room $roomNumber not found.');
       return;
     }
 
-    // show available beds
     List<Bed> availableBeds = room.getAvailableBeds();
     if (availableBeds.isEmpty) {
       print('Error: No available beds in room $roomNumber.');
@@ -140,7 +123,6 @@ class BedManagementConsoleUI {
       print('  - Bed ${bed.bedNumber}');
     }
 
-    // get bed number from user
     stdout.write('\nEnter bed number: ');
     userInput = stdin.readLineSync();
     String bedNumber = '';
@@ -148,26 +130,22 @@ class BedManagementConsoleUI {
       bedNumber = userInput.trim();
     }
 
-    // check if bed number is empty
     if (bedNumber.isEmpty) {
       print('Error: Bed number cannot be empty.');
       return;
     }
 
-    // find the bed
     Bed? bed = room.findBed(bedNumber);
     if (bed == null) {
       print('Error: Bed $bedNumber not found in room $roomNumber.');
       return;
     }
 
-    // check if bed is already occupied
     if (bed.isOccupied) {
       print('Error: Bed $bedNumber is already occupied.');
       return;
     }
 
-    // get patient name from user
     stdout.write('Enter patient name: ');
     userInput = stdin.readLineSync();
     String patientName = '';
@@ -175,13 +153,11 @@ class BedManagementConsoleUI {
       patientName = userInput.trim();
     }
 
-    // check if patient name is empty
     if (patientName.isEmpty) {
       print('Error: Patient name cannot be empty.');
       return;
     }
 
-    // try to assign the patient
     try {
       _bedManager.assignBedToPatient(roomNumber, bedNumber, patientName);
       print('\nSuccess: Assigned bed $roomNumber-$bedNumber to $patientName.');
@@ -190,11 +166,9 @@ class BedManagementConsoleUI {
     }
   }
 
-  // option 3: discharge patient
   void _releaseBed() {
     print('\nDISCHARGE PATIENT');
 
-    // get room number from user
     stdout.write('\nEnter room number: ');
     String? userInput = stdin.readLineSync();
     String roomNumber = '';
@@ -202,20 +176,17 @@ class BedManagementConsoleUI {
       roomNumber = userInput.trim();
     }
 
-    // check if room number is empty
     if (roomNumber.isEmpty) {
       print('Error: Room number cannot be empty.');
       return;
     }
 
-    // find the room
     Room? room = _bedManager.findRoom(roomNumber);
     if (room == null) {
       print('Error: Room $roomNumber not found.');
       return;
     }
 
-    // show occupied beds
     List<Bed> occupiedBeds = room.getOccupiedBeds();
     if (occupiedBeds.isEmpty) {
       print('Error: No occupied beds in room $roomNumber.');
@@ -227,7 +198,6 @@ class BedManagementConsoleUI {
       print('  - Bed ${bed.bedNumber}: ${bed.patientName}');
     }
 
-    // get bed number to release
     stdout.write('\nEnter bed number to release: ');
     userInput = stdin.readLineSync();
     String bedNumber = '';
@@ -235,26 +205,22 @@ class BedManagementConsoleUI {
       bedNumber = userInput.trim();
     }
 
-    // check if bed number is empty
     if (bedNumber.isEmpty) {
       print('Error: Bed number cannot be empty.');
       return;
     }
 
-    // find the bed
     Bed? bed = room.findBed(bedNumber);
     if (bed == null) {
       print('Error: Bed $bedNumber not found in room $roomNumber.');
       return;
     }
 
-    // check if bed is empty
     if (!bed.isOccupied) {
       print('Error: Bed $bedNumber is empty.');
       return;
     }
 
-    // ask for confirmation
     stdout.write('Are you sure you want to discharge this patient? (y/n): ');
     userInput = stdin.readLineSync();
     String confirmation = '';
@@ -262,13 +228,11 @@ class BedManagementConsoleUI {
       confirmation = userInput.trim().toLowerCase();
     }
 
-    // check confirmation
     if (confirmation != 'y' && confirmation != 'yes') {
       print('Discharge cancelled.');
       return;
     }
 
-    // try to discharge the patient
     try {
       _bedManager.releaseBed(roomNumber, bedNumber);
       print(
@@ -279,11 +243,9 @@ class BedManagementConsoleUI {
     }
   }
 
-  // Option 4: Search for patient
   void _searchPatient() {
     print('\nSEARCH PATIENT');
 
-    // Get patient name from user
     stdout.write('\nEnter patient name to search: ');
     String? userInput = stdin.readLineSync();
     String patientName = '';
@@ -291,22 +253,18 @@ class BedManagementConsoleUI {
       patientName = userInput.trim();
     }
 
-    // Check if patient name is empty
     if (patientName.isEmpty) {
       print('Error: Patient name cannot be empty.');
       return;
     }
 
-    // find patients
     List<Map<String, String>> results = _bedManager.findPatient(patientName);
 
-    // check if any patients were found
     if (results.isEmpty) {
       print('\nNo patients foun "$patientName".');
       return;
     }
 
-    // Show results
     print('\nFound ${results.length} patient(s):');
 
     for (var result in results) {

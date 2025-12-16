@@ -1,8 +1,9 @@
-// AI Generated
+//AI-generated
 
 import 'package:flutter_test/flutter_test.dart';
 import '../lib/domain/bed.dart';
 import '../lib/domain/room.dart';
+import '../lib/domain/room_type.dart';
 import '../lib/domain/bed_manager.dart';
 
 void main() {
@@ -48,7 +49,7 @@ void main() {
     setUp(() {
       room = Room(
         roomNumber: '101',
-        roomType: 'General',
+        roomType: RoomType.general,
         beds: [
           Bed(bedNumber: 'A'),
           Bed(bedNumber: 'B'),
@@ -59,7 +60,7 @@ void main() {
 
     test('Room creation', () {
       expect(room.roomNumber, '101');
-      expect(room.roomType, 'General');
+      expect(room.roomType, RoomType.general);
       expect(room.getTotalBedsCount(), 3);
     });
 
@@ -94,7 +95,7 @@ void main() {
         rooms: [
           Room(
             roomNumber: '101',
-            roomType: 'General',
+            roomType: RoomType.general,
             beds: [
               Bed(bedNumber: 'A'),
               Bed(bedNumber: 'B'),
@@ -102,7 +103,7 @@ void main() {
           ),
           Room(
             roomNumber: '201',
-            roomType: 'ICU',
+            roomType: RoomType.icu,
             beds: [
               Bed(bedNumber: 'A'),
               Bed(bedNumber: 'B'),
@@ -116,7 +117,7 @@ void main() {
       bedManager.addRoom(
         Room(
           roomNumber: '301',
-          roomType: 'Emergency',
+          roomType: RoomType.emergency,
           beds: [Bed(bedNumber: 'A')],
         ),
       );
@@ -129,7 +130,7 @@ void main() {
         () => bedManager.addRoom(
           Room(
             roomNumber: '101',
-            roomType: 'General',
+            roomType: RoomType.general,
             beds: [Bed(bedNumber: 'A')],
           ),
         ),
@@ -177,7 +178,7 @@ void main() {
     });
 
     test('Get rooms by type', () {
-      final general = bedManager.getRoomsByType('General');
+      final general = bedManager.getRoomsByType(RoomType.general);
       expect(general.length, 1);
       expect(general[0].roomNumber, '101');
     });

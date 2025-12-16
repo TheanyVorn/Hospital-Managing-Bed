@@ -1,6 +1,7 @@
 import '../domain/bed_manager.dart';
 import '../domain/room.dart';
 import '../domain/bed.dart';
+import '../domain/room_type.dart';
 import 'file_storage.dart';
 
 class BedRepository {
@@ -20,7 +21,7 @@ class BedRepository {
     _bedManager.addRoom(
       Room(
         roomNumber: '101',
-        roomType: 'General',
+        roomType: RoomType.general,
         beds: [
           Bed(bedNumber: 'A'),
           Bed(bedNumber: 'B'),
@@ -31,7 +32,7 @@ class BedRepository {
     _bedManager.addRoom(
       Room(
         roomNumber: '102',
-        roomType: 'ICU',
+        roomType: RoomType.icu,
         beds: [
           Bed(bedNumber: 'A'),
           Bed(bedNumber: 'B'),
@@ -42,7 +43,7 @@ class BedRepository {
     _bedManager.addRoom(
       Room(
         roomNumber: '103',
-        roomType: 'Emergency',
+        roomType: RoomType.emergency,
         beds: [
           Bed(bedNumber: 'A'),
           Bed(bedNumber: 'B'),
