@@ -1,5 +1,3 @@
-//AI-generated
-
 import 'package:flutter_test/flutter_test.dart';
 import '../lib/domain/bed.dart';
 import '../lib/domain/room.dart';

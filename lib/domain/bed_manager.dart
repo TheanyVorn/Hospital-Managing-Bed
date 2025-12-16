@@ -100,7 +100,7 @@ class BedManager {
           String pName = bed.patientName!.toLowerCase();
           String searchName = patientName.toLowerCase();
 
-          if (pName.contains(searchName)) {
+          if (pName == searchName) {
             results.add({
               'roomNumber': room.roomNumber,
               'bedNumber': bed.bedNumber,

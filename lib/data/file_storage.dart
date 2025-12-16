@@ -22,7 +22,7 @@ class FileStorage {
           bedMap['bedNumber'] = bed.bedNumber;
           bedMap['isOccupied'] = bed.isOccupied;
           bedMap['patientName'] = bed.patientName;
-          
+
           if (bed.assignedDate != null) {
             bedMap['assignedDate'] = bed.assignedDate!.toIso8601String();
           } else {
@@ -98,16 +98,5 @@ class FileStorage {
   static bool hasExistingData() {
     final file = File(_fileName);
     return file.existsSync();
-  }
-
-  static Future<void> deleteData() async {
-    try {
-      final file = File(_fileName);
-      if (file.existsSync()) {
-        await file.delete();
-      }
-    } catch (e) {
-      print('Error deleting data: $e');
-    }
   }
 }

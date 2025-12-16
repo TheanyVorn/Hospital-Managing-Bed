@@ -60,7 +60,7 @@ class BedManagementConsoleUI {
   }
 
   void _viewAllRoomsAndBeds() {
-    print('\nALL ROOMS AND BEDS');
+    print('\nVIEW ALL ROOMS AND BEDS');
 
     if (_bedManager.rooms.isEmpty) {
       print('No rooms available.');
