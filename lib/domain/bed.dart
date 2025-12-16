@@ -24,7 +24,7 @@ class Bed {
   //Function: Discharge Patients
   void dischargePatient() {
     if (!isOccupied) {
-      throw Exception('Bed $bedNumber is already vacant');
+      throw Exception('Bed $bedNumber is empty');
     }
     patientName = null;
     isOccupied = false;
