@@ -43,7 +43,7 @@ class BedManager {
     bed.assignPatient(patientName);
   }
 
-  void releaseBed(String roomNumber, String bedNumber) {
+  void dischargePatient(String roomNumber, String bedNumber) {
     Room? room = findRoom(roomNumber);
     if (room == null) {
       throw Exception('Room $roomNumber not found');
@@ -54,7 +54,7 @@ class BedManager {
       throw Exception('Bed $bedNumber not found in room $roomNumber');
     }
 
-    bed.releaseBed();
+    bed.dischargePatient();
   }
 
   int getTotalAvailableBeds() {

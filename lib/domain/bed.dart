@@ -11,6 +11,7 @@ class Bed {
     this.assignedDate,
   });
 
+  //Funtion: Assign Patiebt to Bed in room
   void assignPatient(String patientName) {
     if (isOccupied) {
       throw Exception('Bed $bedNumber is already occupied');
@@ -20,7 +21,8 @@ class Bed {
     assignedDate = DateTime.now();
   }
 
-  void releaseBed() {
+  //Function: Discharge Patients
+  void dischargePatient() {
     if (!isOccupied) {
       throw Exception('Bed $bedNumber is already vacant');
     }

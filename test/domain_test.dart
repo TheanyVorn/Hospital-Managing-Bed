@@ -27,17 +27,17 @@ void main() {
       expect(() => bed.assignPatient('Jane'), throwsException);
     });
 
-    test('Release bed', () {
+    test('Discharge Patient', () {
       final bed = Bed(bedNumber: 'A');
       bed.assignPatient('Theany');
-      bed.releaseBed();
+      bed.dischargePatient();
       expect(bed.isOccupied, false);
       expect(bed.patientName, null);
     });
 
-    test('Cannot release vacant bed', () {
+    test('Cannot discharge vacant bed', () {
       final bed = Bed(bedNumber: 'A');
-      expect(() => bed.releaseBed(), throwsException);
+      expect(() => bed.dischargePatient(), throwsException);
     });
   });
 
@@ -159,9 +159,9 @@ void main() {
       );
     });
 
-    test('Release bed', () {
+    test('Discharge Patient', () {
       bedManager.assignBedToPatient('101', 'A', 'Theany');
-      bedManager.releaseBed('101', 'A');
+      bedManager.dischargePatient('101', 'A');
       final bed = bedManager.findRoom('101')?.findBed('A');
       expect(bed?.isOccupied, false);
     });
