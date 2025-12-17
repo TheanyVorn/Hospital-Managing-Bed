@@ -1,8 +1,8 @@
 import 'package:flutter_test/flutter_test.dart';
-import '../lib/domain/bed.dart';
-import '../lib/domain/room.dart';
-import '../lib/domain/room_type.dart';
-import '../lib/domain/bed_manager.dart';
+import 'package:test/domain/bed.dart';
+import 'package:test/domain/bed_manager.dart';
+import 'package:test/domain/room.dart';
+import 'package:test/domain/room_type.dart';
 
 void main() {
   group('Bed Tests', () {
