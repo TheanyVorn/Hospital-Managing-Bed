@@ -11,7 +11,7 @@ class BedManagementConsoleUI {
 
   BedManagementConsoleUI() : _repository = BedRepository();
 
-  // initialize ui (load data from file)
+  // initialize ui - load data from json
   Future<void> initialize() async {
     await _repository.initialize();
     _bedManager = _repository.getBedManager();
@@ -37,7 +37,7 @@ class BedManagementConsoleUI {
         _viewAllRoomsAndBeds();
       } else if (choice == '2') {
         _assignBedToPatient();
-        await _repository.saveData(); //save to json
+        await _repository.saveData(); //save data to json
       } else if (choice == '3') {
         _dischargePatient();
         await _repository.saveData();
@@ -274,9 +274,7 @@ class BedManagementConsoleUI {
     // Try to discharge the patient
     try {
       _bedManager.dischargePatient(roomNumber, bedNumber);
-      print(
-        'Patient discharged successfully from bed $roomNumber-$bedNumber.',
-      );
+      print('Patient discharged successfully from bed $roomNumber-$bedNumber.');
     } catch (e) {
       print('Error: ${e.toString()}');
     }
