@@ -8,10 +8,12 @@ import '../domain/room_type.dart';
 class FileStorage {
   static const String _fileName = 'hospital_data.json';
 
+  // save bed data
   static Future<bool> saveBedData(BedManager bedManager) async {
     try {
       final file = File(_fileName);
 
+      // convert bed objects to json for readbility 
       List<Map> roomsData = [];
 
       for (var room in bedManager.rooms) {
@@ -40,8 +42,9 @@ class FileStorage {
         roomsData.add(roomMap);
       }
 
-      final jsonString = jsonEncode(roomsData);
+      final jsonString = jsonEncode(roomsData); // Convert to json text
 
+      // write to json
       await file.writeAsString(jsonString);
       return true;
     } catch (e) {
@@ -49,7 +52,7 @@ class FileStorage {
       return false;
     }
   }
-
+ // load bed data
   static Future<BedManager> loadBedData() async {
     try {
       final file = File(_fileName);
@@ -58,8 +61,9 @@ class FileStorage {
         return BedManager();
       }
 
+      // read from file
       final jsonString = await file.readAsString();
-
+      // convert json text to dart objects
       final roomsData = jsonDecode(jsonString);
 
       List<Room> rooms = [];
@@ -72,9 +76,9 @@ class FileStorage {
           if (bedData['assignedDate'] != null) {
             assignedDate = DateTime.parse(bedData['assignedDate']);
           }
-
+          // extract data from json
           Bed newBed = Bed(
-            bedNumber: bedData['bedNumber'],
+            bedNumber: bedData['bedNumber'], // getting data back
             isOccupied: bedData['isOccupied'],
             patientName: bedData['patientName'],
             assignedDate: assignedDate,
@@ -82,7 +86,7 @@ class FileStorage {
           beds.add(newBed);
         }
 
-        Room newRoom = Room(
+        Room newRoom = Room(  //recreate room object
           roomNumber: roomData['roomNumber'],
           roomType: RoomType.fromString(roomData['roomType']),
           beds: beds,

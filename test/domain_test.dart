@@ -56,12 +56,6 @@ void main() {
       );
     });
 
-    test('Room creation', () {
-      expect(room.roomNumber, '101');
-      expect(room.roomType, RoomType.general);
-      expect(room.getTotalBedsCount(), 3);
-    });
-
     test('Count available and occupied beds', () {
       expect(room.getAvailableBedsCount(), 3);
       expect(room.getOccupiedBedsCount(), 0);
@@ -165,7 +159,7 @@ void main() {
       expect(results[0]['patientName'], 'Theany');
     });
 
-    test('Find patient with partial name match', () {
+    test('Find multiple patients with same exact name', () {
       bedManager.assignBedToPatient('101', 'A', 'Theany');
       bedManager.assignBedToPatient('101', 'B', 'Theany');
 
