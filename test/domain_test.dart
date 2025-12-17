@@ -35,7 +35,7 @@ void main() {
       expect(bed.patientName, null);
     });
 
-    test('Cannot discharge vacant bed', () {
+    test('Cannot discharge empty bed', () {
       final bed = Bed(bedNumber: 'A');
       expect(() => bed.dischargePatient(), throwsException);
     });
@@ -117,7 +117,7 @@ void main() {
       expect(bed?.patientName, 'Theany');
     });
 
-    test('Cannot assign to non-existent room or bed', () {
+    test('Cannot assign to non-exist room or bed', () {
       expect(
         () => bedManager.assignBedToPatient('999', 'A', 'Theany'),
         throwsException,
