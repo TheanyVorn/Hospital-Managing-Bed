@@ -7,15 +7,6 @@ class BedManager {
 
   BedManager({List<Room>? rooms}) : rooms = rooms ?? [];
 
-  void addRoom(Room room) {
-    for (var existingRoom in rooms) {
-      if (existingRoom.roomNumber == room.roomNumber) {
-        throw Exception('Room ${room.roomNumber} already exists');
-      }
-    }
-    rooms.add(room);
-  }
-
   Room? findRoom(String roomNumber) {
     for (var room in rooms) {
       if (room.roomNumber == roomNumber) {

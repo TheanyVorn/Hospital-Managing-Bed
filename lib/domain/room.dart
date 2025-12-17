@@ -8,6 +8,7 @@ class Room {
 
   Room({required this.roomNumber, required this.roomType, required this.beds});
 
+//how many bed available -> number 
   int getAvailableBedsCount() {
     int count = 0;
     for (var bed in beds) {
@@ -32,6 +33,7 @@ class Room {
     return beds.length;
   }
 
+// what bed available -> object 
   List<Bed> getAvailableBeds() {
     List<Bed> available = [];
     for (var bed in beds) {

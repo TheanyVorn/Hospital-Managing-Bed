@@ -111,31 +111,6 @@ void main() {
       );
     });
 
-    test('Add room', () {
-      bedManager.addRoom(
-        Room(
-          roomNumber: '301',
-          roomType: RoomType.emergency,
-          beds: [Bed(bedNumber: 'A')],
-        ),
-      );
-      expect(bedManager.rooms.length, 3);
-      expect(bedManager.findRoom('301'), isNotNull);
-    });
-
-    test('Cannot add duplicate room', () {
-      expect(
-        () => bedManager.addRoom(
-          Room(
-            roomNumber: '101',
-            roomType: RoomType.general,
-            beds: [Bed(bedNumber: 'A')],
-          ),
-        ),
-        throwsException,
-      );
-    });
-
     test('Find room', () {
       expect(bedManager.findRoom('101'), isNotNull);
       expect(bedManager.findRoom('999'), null);

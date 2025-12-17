@@ -11,11 +11,12 @@ class Bed {
     this.assignedDate,
   });
 
-  //Funtion: Assign Patiebt to Bed in room
+  //Funtion: Assign Patient to Bed
   void assignPatient(String patientName) {
     if (isOccupied) {
       throw Exception('Bed $bedNumber is already occupied');
     }
+
     this.patientName = patientName;
     isOccupied = true;
     assignedDate = DateTime.now();

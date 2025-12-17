@@ -4,14 +4,14 @@ import '../domain/room.dart';
 import '../domain/bed.dart';
 import '../data/bed_repository.dart';
 
-// console-based ui
+// console based ui
 class BedManagementConsoleUI {
   final BedRepository _repository;
   BedManager _bedManager = BedManager();
 
   BedManagementConsoleUI() : _repository = BedRepository();
 
-  // initialize the ui (load data from file)
+  // initialize ui (load data from file)
   Future<void> initialize() async {
     await _repository.initialize();
     _bedManager = _repository.getBedManager();
@@ -47,7 +47,7 @@ class BedManagementConsoleUI {
         await _repository.saveData();
         isRunning = false;
         print('\nData saved successfully.');
-        print('Thank you for using Hospital Bed Management System!');
+        print('Orkun for using Hospital Bed Management System');
       } else {
         print('\nInvalid choice. Please try again.\n');
       }
